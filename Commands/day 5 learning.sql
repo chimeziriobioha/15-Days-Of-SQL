@@ -55,6 +55,16 @@ FROM flights
 GROUP BY season;
 
 
+-- COALESCE & CAST
+SELECT 
+scheduled_departure, 
+-- COALESCE(actual_departure, '2017-07-16 07:44:00+01')  AS actual_departure
+-- COALESCE(actual_departure, scheduled_departure)  AS actual_departure
+-- COALESCE(CAST(actual_departure as VARCHAR), 'Not Departed')  AS actual_departure
+COALESCE(actual_departure::VARCHAR, 'Not Departed')  AS actual_departure
+FROM flights LIMIT 100
+
+
 -- GREENCYCLES DATABASE --
 SELECT
 title,
@@ -83,6 +93,7 @@ SUM(CASE WHEN rating = 'PG' THEN 1 ELSE 0 END) AS "PG"
 FROM film
 
 
+-- ANOTHER DATABASE
 -- from another DB but worthy of being here
 -- `transactions` table has columns: | amount | category |
 -- where category is either 'Income' or 'Expense' which amount represents
