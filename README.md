@@ -1,4 +1,4 @@
-So, I took a look at the language behind the ORM abstractions I've been using to work with databases all the while. That beautiful and very important `Structured Query Language - SQL`.
+So, I'm taking a look at the language behind the ORM abstractions I've been using to work with databases all the while. That beautiful and very important `Structured Query Language - SQL`.
 
 I employed the [15 Days of SQL](https://udemy.com/course/15-days-of-sql) course by [Nikolai Schuler](https://linkedin.com/in/nikolai-schuler) to guide me through it, and I'm putting it up here as a reference point for myself and anyone who may find it helpful.
 
