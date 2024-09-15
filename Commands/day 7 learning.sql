@@ -197,5 +197,58 @@ WHERE replacement_cost = (
 	-- 	conditions. But for wholesomeness; they should be there.
 	WHERE f1.rating = f2.rating
 	GROUP BY rating
-)
+);
+
+
+-- add a column displaying the maximun amount spent by each customer
+SELECT *, (
+	SELECT MAX(amount)
+	FROM payment AS p1
+	WHERE p1.customer_id = p2.customer_id
+) as max_amount
+FROM payment AS p2;
+
+
+-- add columns that show all payments total and number of payments 
+-- for every customer to the payment table
+SELECT *, (
+	SELECT SUM(amount)
+	FROM payment AS p1
+	WHERE p1.customer_id = p3.customer_id
+) as total_amount, (
+	SELECT COUNT(*)
+	FROM payment AS p2
+	WHERE p2.customer_id = p3.customer_id
+) as num_of_payments
+FROM payment AS p3;
+
+
+-- display customer first_name with their 
+-- highest payment amount and the payment_id
+SELECT first_name, amount, payment_id
+FROM payment AS p1
+INNER JOIN customer 
+ON p1.customer_id = customer.customer_id
+WHERE amount = (
+	SELECT MAX(amount)
+	FROM payment AS p2
+	WHERE p1.customer_id = p2.customer_id
+);
+-- OR --
+-- if no need for the payment_id
+SELECT first_name, MAX(amount)
+FROM payment AS p1
+INNER JOIN customer 
+ON p1.customer_id = customer.customer_id
+GROUP BY (first_name);
+-- --
+SELECT first_name, (
+	SELECT MAX(amount)
+	FROM customer AS c1
+	INNER JOIN payment ON c1.customer_id = payment.customer_id
+) AS max_amount
+FROM customer AS c2;
+-- NOTE: all three solutions above give different 
+-- numbers of rows for reasons I'm yet to figure out
+-- Last solution tallies with number of customers in db: 599
 
