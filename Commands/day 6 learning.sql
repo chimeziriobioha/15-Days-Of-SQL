@@ -8,6 +8,7 @@ FROM customer, payment
 WHERE customer.customer_id = payment.customer_id;
 
 
+-- left join
 -- customer table columns takes precedence
 SELECT *
 FROM customer
@@ -15,6 +16,7 @@ LEFT OUTER JOIN payment
 ON customer.customer_id = payment.customer_id;
 
 
+-- right join
 -- payment table columns takes precedence
 SELECT *
 FROM customer
@@ -22,6 +24,8 @@ RIGHT OUTER JOIN payment
 ON payment.customer_id = customer.customer_id;
 
 
+-- inner join
+-- no table columns takes precedence; only matches are returned
 SELECT pa.*, first_name, last_name
 FROM payment AS pa 
 INNER JOIN customer AS cu

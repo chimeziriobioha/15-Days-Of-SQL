@@ -63,6 +63,8 @@ ORDER BY 4 DESC;
 
 
 -- HAVING --
+--used for general comparison checks, including on aggregate functions
+
 SELECT DATE(payment_date), staff_id, SUM(amount), COUNT(*)
 FROM payment
 GROUP BY DATE(payment_date), staff_id
