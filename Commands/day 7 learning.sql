@@ -89,11 +89,11 @@ SELECT film.film_id, title
 FROM film
 INNER JOIN inventory ON film.film_id = inventory.film_id
 INNER JOIN (
-	SELECT film_id AS sub_film_id, COUNT(*) AS counter
+	SELECT film_id AS sub_film_id, COUNT(*) AS film_counter
 	FROM inventory
 	WHERE store_id = 2
 	GROUP BY sub_film_id
-) AS subq ON film.film_id = subq.sub_film_id AND subq.counter > 3
+) AS subq ON film.film_id = subq.sub_film_id AND subq.film_counter > 3
 GROUP BY film.film_id
 ORDER BY film.film_id ASC;
 
