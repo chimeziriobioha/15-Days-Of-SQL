@@ -1,6 +1,6 @@
-So, I'm taking a look at the language behind the ORM abstractions I've been using to work with databases all the while. The beautiful and very important `Structured Query Language - SQL`.
+I recently learned the language behind the ORM's I've been using to work with databases all the while. The beautiful and very important `Structured Query Language - SQL`.
 
-I employed the [15 Days of SQL](https://udemy.com/course/15-days-of-sql) course by [Nikolai Schuler](https://linkedin.com/in/nikolai-schuler) to guide me through it, and I'm putting it up here as a reference point for myself and anyone who may find it helpful.
+I employed the [15 Days of SQL](https://udemy.com/course/15-days-of-sql) course by [Nikolai Schuler](https://linkedin.com/in/nikolai-schuler) to guide me through it, and I'm putting the learning journey/practices up here as a reference point for myself and anyone who may find it helpful.
 
 The files inside the `/Commands` folder contain my learning practices ***from day-2-learning to day-15-learning***, going from simple to complex.
 
