@@ -1,9 +1,9 @@
-I recently learned the language behind the ORM's I've been using to work with databases all the while. The beautiful and very important `Structured Query Language - SQL`.
+I have acquired a crucial skill: **Structured Query Language (SQL)**, after relying solely on Object-Relational Mappers (ORMs) in my previous projects.
 
-I employed the [15 Days of SQL](https://udemy.com/course/15-days-of-sql) course by [Nikolai Schuler](https://linkedin.com/in/nikolai-schuler) to guide me through it, and I'm putting the learning journey/practices up here as a reference point for myself and anyone who may find it helpful.
+To guide my learning, I completed the [15 Days of SQL](https://udemy.com/course/15-days-of-sql) course by [Nikolai Schuler](https://linkedin.com/in/nikolai-schuler). I’m sharing my journey and practices here as a reference point, both for myself and anyone who may find it helpful.
 
-The files inside the `/Commands` folder contain my learning practices ***from day-2-learning to day-15-learning***, going from simple to complex.
+The files inside the `/Commands` folder contain my learning progress, ***from day 2 to day 15***, gradually moving from basic to advanced concepts.
 
-The `pagila-master.zip` and `flight_database.zip` files contain the SQL to build the databases used for the learning purpose. This is PostgreSQL based. The build can be done in PGAdmin's Query Tool by opening up and running `pagila-insert-data.sql` and `flight_database.sql` after extracting them from the zip files.
+The `pagila-master.zip` and `flight_database.zip` files include SQL scripts for building the databases used throughout the course. These are PostgreSQL-based, and you can build them in PGAdmin's Query Tool by running `pagila-insert-data.sql` and `flight_database.sql` after extracting the contents from the zip files.
 
-From `day 5 learning` up, the commands switch between the two databases multiple times in one file. This is something you can re-arrange by yourself if you find it annoying switching back and forth. I left it that way because that's the order in which I wrote the commands - which is progressive.
+Starting from `day 5`, the commands alternate between the two databases within the same file. If you find switching between databases inconvenient, feel free to reorganize the commands. I left them in the original sequence as that reflects the natural progression of my learning.
