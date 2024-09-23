@@ -439,7 +439,7 @@ Upate the salaries accordingly. */
 -- select * from employees where position_title ILIKE '%SQL Analyst%'
 UPDATE employees
 SET
-	salay = salary * 1.06
+	salary = salary * 1.06
 WHERE
 	position_title ILIKE '%SQL Analyst%';
 
