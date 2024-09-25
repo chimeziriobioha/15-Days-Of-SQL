@@ -265,7 +265,7 @@ SELECT
 	(
 		SELECT
 			SUM(amount)
-			-- this is an exact duplicate of outer query below: very expensive
+			-- this is an exact duplica of outer query below: very expensive
 		FROM
 			payment AS p2
 			INNER JOIN rental AS r2 ON p2.rental_id = r2.rental_id

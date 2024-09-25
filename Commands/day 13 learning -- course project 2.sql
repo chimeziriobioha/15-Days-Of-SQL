@@ -1,5 +1,7 @@
 /* GROUPING SETS */
 -- GREENCYCLE DATABASE --
+
+
 /* 1.a: Set up a table called employees with the following columns
 emp_id, first_name, last_name, job_position, salary, start_date,
 birth_date, store_id, department_id, manager_id.
@@ -27,6 +29,7 @@ CREATE TABLE IF NOT EXISTS departments (
     division VARCHAR NOT NULL
 );
 
+
 /* 2: Alter the employees table with the following details:
 - Set the column department_id to not null.
 - Add a default value of CURRENT_DATE to the column start_date.
@@ -44,6 +47,7 @@ ADD CONSTRAINT birth_check CHECK (birth_date < CURRENT_DATE);
 
 ALTER TABLE employees
 RENAME COLUMN job_position TO position_title;
+
 
 /* 3.a: Insert the data in Eployees_Data.txt into the employees 
 table. There will be an error when you try to insert the values.
@@ -403,7 +407,8 @@ VALUES
         NULL
     );
 
-/* 3.b: Inster data into departments table */
+
+/* 3.b: Instert data into departments table */
 INSERT INTO
     departments (department_id, department, division)
 VALUES
@@ -412,6 +417,7 @@ VALUES
     (3, 'Sales', 'Sales'),
     (4, 'Website', 'IT'),
     (5, 'Back Office', 'Administration');
+
 
 /* 4.a: Jack Franklin gets promoted to 'Senior SQL Analyst' and the salary raises to 7200.
 Update the values accordingly. */
@@ -424,21 +430,24 @@ WHERE
     first_name = 'Jack'
     AND last_name = 'Franklin';
 
+
 /* 4.b: Rename all the position_title 'Customer Support' to 'Customer Specialist'. */
 -- select * from employees where position_title = 'Customer Specialist'
 UPDATE employees
 SET
     position_title = 'Customer Specialist'
 WHERE
-    position_title = 'Customer Support'
-    /* 4.c: All SQL Analysts including Senior SQL Analysts get a raise of 6%.
-    Upate the salaries accordingly. */
-    -- select * from employees where position_title ILIKE '%SQL Analyst%'
+    position_title = 'Customer Support';
+
+/* 4.c: All SQL Analysts including Senior SQL Analysts get a raise of 6%.
+Upate the salaries accordingly. */
+-- select * from employees where position_title ILIKE '%SQL Analyst%'
 UPDATE employees
 SET
     salary = salary * 1.06
 WHERE
     position_title ILIKE '%SQL Analyst%';
+
 
 /* 4.d: What is the average salary of a SQL Analyst in the 
 company (excluding Senior SQL Analyst)? */
@@ -451,6 +460,7 @@ WHERE
     position_title = 'SQL Analyst'
 GROUP BY
     position_title;
+
 
 /* 5.a: Write a query that adds a column called manager that contains  
 first_name and last_name (in one column) in the data output.
@@ -476,6 +486,7 @@ SELECT
 FROM
     employees AS mainEmp;
 
+
 /* 5.b: Create a view called v_employees_info from that previous query. */
 CREATE VIEW v_employees_info AS
 SELECT
@@ -496,6 +507,7 @@ SELECT
 FROM
     employees AS mainEmp;
 
+
 /* 6: Write a query that returns the average salaries 
 for each positions with appropriate roundings. */
 SELECT
@@ -506,6 +518,7 @@ FROM
 GROUP BY
     position_title;
 
+
 /* 7: Write a query that returns the average salaries per division. */
 SELECT
     division,
@@ -515,6 +528,7 @@ FROM
     LEFT JOIN employees emp ON dep.department_id = emp.department_id
 GROUP BY
     division;
+
 
 /* 8.a: Write a query that returns the following:
 emp_id, first_name, last_name, position_title, salary
@@ -536,28 +550,32 @@ SELECT
 FROM
     employees
 ORDER BY
-    emp_id
-    /* 8.b: How many people earn less than there avg_position_salary?
-    Write a query that answers that question. Ideally, the output 
-    just shows that number directly. */
+    emp_id;
+
+
+/* 8.b: How many people earn less than there avg_position_salary?
+Write a query that answers that question. Ideally, the output 
+just shows that number directly. */
+WITH salary_table AS (
+    SELECT
+        salary,
+        ROUND(
+            AVG(salary) OVER (
+                PARTITION BY
+                    position_title
+            ), 2
+        ) AS avg_position_salary
+    FROM
+        employees
+)
+
 SELECT
     COUNT(*)
 FROM
-    (
-        SELECT
-            salary,
-            ROUND(
-                AVG(salary) OVER (
-                    PARTITION BY
-                        position_title
-                ),
-                2
-            ) AS avg_position_salary
-        FROM
-            employees
-    ) AS subquery
+    salary_table
 WHERE
-    subquery.salary < subquery.avg_position_salary;
+    salary_table.salary < salary_table.avg_position_salary;
+
 
 /* 9: Write a query that returns a running total of the salary 
 development by the start_date.
@@ -629,28 +647,30 @@ ORDER BY
 
 /* 11.c: Remove those employees from the output of the previous 
 query that has the same salary as the average of their position_title. */
+WITH avg_salary_by_position AS (
+    SELECT
+        first_name,
+        position_title,
+        salary,
+        ROUND(
+            AVG(salary) OVER (
+                PARTITION BY
+                    position_title
+            ), 2
+        ) AS avg_position_salary
+    FROM
+        employees
+)
+
 SELECT
     *
 FROM
-    (
-        SELECT
-            first_name,
-            position_title,
-            salary,
-            ROUND(
-                AVG(salary) OVER (
-                    PARTITION BY
-                        position_title
-                ),
-                2
-            ) AS avg_position_salary
-        FROM
-            employees
-    ) AS subq
+    avg_salary_by_position
 WHERE
     salary != avg_position_salary
 ORDER BY
     salary DESC;
+
 
 /* 12: Write a query that returns all meaningful aggregations of
 - sum of salary,
@@ -680,8 +700,8 @@ GROUP BY
 ORDER BY
     1,
     2,
-    3
-    -- OR: instructor solution --
+    3;
+-- OR: instructor solution --
 SELECT
     division,
     department,
@@ -697,11 +717,13 @@ GROUP BY
 ORDER BY
     1,
     2,
-    3
-    /* 13. Write a query that returns all employees (emp_id) 
-    including their position_title, department, their salary, 
-    and the rank of that salary partitioned by department.
-    The highest salary per division should have rank 1. */
+    3;
+
+
+/* 13. Write a query that returns all employees (emp_id) 
+including their position_title, department, their salary, 
+and the rank of that salary partitioned by department.
+The highest salary per division should have rank 1. */
 SELECT
     emp_id,
     position_title,
@@ -715,8 +737,9 @@ SELECT
     ) AS salary_rank
 FROM
     employees emp
-    LEFT JOIN departments dep ON emp.department_id = dep.department_id
-    -- OR: instructor solution --
+    LEFT JOIN departments dep ON emp.department_id = dep.department_id;
+    
+-- OR: instructor solution --
 SELECT
     emp_id,
     position_title,
@@ -730,9 +753,11 @@ SELECT
     )
 FROM
     employees
-    NATURAL LEFT JOIN departments
-    /* Write a query that returns only the top earner of each department including
-    their emp_id, position_title, department, and their salary. */
+    NATURAL LEFT JOIN departments;
+
+
+/* 14: Write a query that returns only the top earner of each department
+including their emp_id, position_title, department, and their salary. */
 SELECT
     emp_id,
     position_title,
@@ -775,4 +800,4 @@ FROM
             NATURAL LEFT JOIN departments
     ) _
 WHERE
-    rank = 1
+    rank = 1;

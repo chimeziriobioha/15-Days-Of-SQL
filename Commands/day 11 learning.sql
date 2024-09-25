@@ -125,30 +125,32 @@ group by
 
 -- then, 
 -- main query which combines the above
+with ranked_customers as (
+    select
+        cl.name as full_name,
+        country,
+        count(pt.payment_id) as num_payments,
+        dense_rank() over (
+            partition by
+                cl.country
+            order by
+                count(pt.payment_id) desc
+        ) as customer_rank
+    from
+        customer_list cl
+        left join payment pt on cl.id = pt.customer_id
+    group by
+        cl.name,
+        cl.country
+)
+
 select
     full_name,
     country,
     num_payments,
     customer_rank
 from
-    (
-        select
-            cl.name as full_name,
-            country,
-            count(pt.payment_id) as num_payments,
-            dense_rank() over (
-                partition by
-                    cl.country
-                order by
-                    count(pt.payment_id) desc
-            ) as customer_rank
-        from
-            customer_list cl
-            left join payment pt on cl.id = pt.customer_id
-        group by
-            cl.name,
-            cl.country
-    ) as customers
+    ranked_customers
 where
     customer_rank in (1, 2, 3);
 
